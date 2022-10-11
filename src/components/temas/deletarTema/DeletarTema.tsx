@@ -4,8 +4,9 @@ import { Box } from '@mui/material';
 import Tema from '../../../models/Tema';
 import './DeletarTema.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import useLocalStorage from 'react-use-localstorage';
 import { buscaId, deleteId, post, put } from '../../../services/Service';
+import { useSelector } from 'react-redux';
+import { TokenState } from '../../../store/tokens/tokensReducer';
 
 
 
@@ -13,9 +14,10 @@ function DeletarTema() {
   
     let navigate = useNavigate();
     const { id } = useParams<{id: string}>();
-    const [token, setToken] = useLocalStorage('token');
-
     const [tema, setTema] = useState<Tema>()
+    const token = useSelector<TokenState, TokenState["tokens"]>(
+      (state) => state.tokens
+    );
   
     useEffect(() => {
         if (token == "") {
