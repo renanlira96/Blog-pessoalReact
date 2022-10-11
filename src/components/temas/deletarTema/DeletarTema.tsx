@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { buscaId, deleteId, post, put } from '../../../services/Service';
 import { useSelector } from 'react-redux';
 import { TokenState } from '../../../store/tokens/tokensReducer';
+import { toast } from 'react-toastify';
 
 
 
@@ -20,12 +21,21 @@ function DeletarTema() {
     );
   
     useEffect(() => {
-        if (token == "") {
-            alert("Você precisa estar logado")
-            navigate("/login")
-    
-        }
-    }, [token])
+      if (token == "") {
+        toast.error('Você precisa estar logado', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "colored",
+          progress: undefined,
+          });
+          navigate("/login")
+  
+      }
+  }, [token])
 
     useEffect(() =>{
         if(id !== undefined){
@@ -43,17 +53,26 @@ function DeletarTema() {
 
         function sim() {
           navigate('/temas')
-            deleteId(`/tema/${id}`, {
-              headers: {
-                'Authorization': token
-              }
+          deleteId(`/tema/${id}`, {
+            headers: {
+              'Authorization': token
+            }
+          });
+          toast.success('Tema deletado com sucesso', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "colored",
+            progress: undefined,
             });
-            alert('Tema deletado com sucesso');
-          }
-        
-          function nao() {
-            navigate('/temas')
-          }
+        }
+      
+        function nao() {
+          navigate('/temas')
+        }
 
   return (
     <>
